@@ -14,11 +14,9 @@
         <group>
             <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/src/java/agenda/data/AnuncioDao.java</file>
             <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/src/java/agenda/model/Anuncio.java</file>
-            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/usuario_create.jsp</file>
-            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/anuncio_lista.jsp</file>
-            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/index.jsp</file>
-            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/usuario_reporte_ventas.jsp</file>
-            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/Css/Style.css</file>
+            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/anuncioDetalle.jsp</file>
+            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/src/java/agenda/controller/AnuncioServlet.java</file>
+            <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/src/java/agenda/data/ProductoDao.java</file>
             <file>file:/C:/Users/Monotr_/Google%20Drive/LMAD/5to%20semestre/LAB%20PAPW/prac10%20FINAL%20WUUUUUUUUUUUUUU/Practica8Act1/web/producto_lista.jsp</file>
         </group>
     </open-files>
