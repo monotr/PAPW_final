@@ -105,7 +105,7 @@ public class AnuncioDao {
         }
     }
     
-    public static List<Anuncio> buscar() throws SQLException
+    public static List<Anuncio> buscar(int idUS) throws SQLException
     {
        ConexionPool pool = ConexionPool.getInstancia();
         Connection con = pool.getConexion();
@@ -114,7 +114,8 @@ public class AnuncioDao {
         try
         {
             //String query = "{call buscarContactos ()}";
-            cs = con.prepareCall("{call buscar_todos_anuncios_del_usuario()}");
+            cs = con.prepareCall("{call buscar_todos_anuncios_del_usuario(?)}");
+            cs.setInt(1, idUS);
             rs = cs.executeQuery();
             
             List<Anuncio> anuncios = new ArrayList<Anuncio>();
@@ -126,9 +127,12 @@ public class AnuncioDao {
                 anuncio.setThumbnail(rs.getBlob("thumbnailAnuncio"));
                 anuncio.setIdProducto(rs.getInt("Producto_id"));
                 anuncio.setIdMetodoPago(rs.getInt("MetodoPago_id"));
+                anuncio.setNombreMP(rs.getString("nombremetodopago"));
                 anuncio.setEstado(rs.getInt("estadoAnuncio"));
-                anuncio.setNombreMP(rs.getString("descripcioncorta"));
-                anuncio.setNombreProducto(rs.getString("nombremetodopago"));
+                anuncio.setPrecio(rs.getFloat("precioProducto"));
+                anuncio.setNombreProducto(rs.getString("descripcioncorta"));
+                anuncio.setSubcategoria(rs.getString("nombresubcategoria"));
+                anuncio.setExistencia(rs.getInt("existenciaProducto"));
                 anuncios.add(anuncio);
             }
             return anuncios;
@@ -161,7 +165,7 @@ public class AnuncioDao {
             
             if(rs.next()){
                 Anuncio anuncio = new Anuncio();
-                anuncio.setId(rs.getInt("idProducto"));
+                anuncio.setId(rs.getInt("idAnuncio"));
                 anuncio.setVigencia(rs.getString("vigenciaAnuncio"));
                 anuncio.setFechPublicacion(rs.getString("fechaPublicacion"));
                 anuncio.setThumbnail(rs.getBlob("thumbnailAnuncio"));

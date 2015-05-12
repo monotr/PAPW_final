@@ -46,7 +46,7 @@
                     <tr>
                         <th>Imagen 1: </th>
                         <td>
-                            <img width="30px" height="30px" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + producto.getId() + "&col=1" %>" />
+                            <img width="30px" height="30px" src="<%= producto == null? "" : request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + producto.getId() + "&col=1" %>" />
                             <input type="file" name="imagen1">
                         </td>
                     </tr>
@@ -99,7 +99,7 @@
                     <tr>
                         <td colspan="2" align="center">
                             <input type="hidden" name="id" value="<%= producto == null? "" : producto.getId()%>"/>
-                            <input type="hidden" name="idUsuario" value="1"/>
+                            <input type="hidden" name="idUsuario" value="<%= session.getAttribute("id") %>"/>
                             <input type="submit" value="Guardar"/>
                         </td>
                     </tr>

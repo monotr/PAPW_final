@@ -77,6 +77,7 @@ public class DetallesUsuarioServlet extends HttpServlet {
             String ciudad = request.getParameter("ciudad");
             String estado = request.getParameter("estado");
             String pais = request.getParameter("pais");
+            String cp = request.getParameter("cp");
             String sexo = request.getParameter("sexo");       
             
             
@@ -101,6 +102,7 @@ public class DetallesUsuarioServlet extends HttpServlet {
                 usuario.setCiudad(ciudad);
                 usuario.setEstado(estado);
                 usuario.setPais(pais);
+                usuario.setCp(Integer.parseInt(cp));
                 usuario.setSexo(sexo);
                 
                 if(id != null && !id.equals("")){

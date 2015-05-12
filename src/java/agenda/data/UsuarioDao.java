@@ -9,6 +9,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,32 +27,15 @@ public class UsuarioDao {
         cs = null;
         try
         {
-            String query = "{CALL sp_NuevoUsuario (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+            String query = "{CALL sp_NuevoUsuario (?,?,?,?)}";
             cs = con.prepareCall(query);
-            String sexoA = "";
-            if(usuario.getSexo() == "0")
-                sexoA = "M";
-            else
-                sexoA = "F";
-            cs.setString(1,usuario.getNickname());
-            cs.setString(2,usuario.getContrasenia());
-            cs.setString(3,usuario.getEmail());
-            cs.setBlob(4,usuario.getImagen());
-            cs.setString(5,usuario.getNombre());
-            cs.setString(6,usuario.getApellidoPaterno());
-            cs.setString(7,usuario.getApellidoMaterno());
-            cs.setString(8,usuario.getFechaNacimiento());
-            cs.setString(9,sexoA);
-            cs.setString(10,usuario.getColonia());
-            cs.setString(11,usuario.getCalle());
-            cs.setString(12,usuario.getNumCasa());
-            cs.setInt(13,usuario.getCp());
-            cs.setString(14,usuario.getCiudad());
-            cs.setString(15,usuario.getEstado());
-            cs.setString(16,usuario.getPais());
-            cs.setInt(17,1);
+            cs.setString(1,usuario.getContrasenia());
+            cs.setString(2,usuario.getEmail());
+            cs.setInt(3,1);
+            cs.registerOutParameter(4, Types.INTEGER);
             cs.execute();
-            return 1;
+            int id = cs.getInt(4);
+            return id;
        }
         catch(SQLException ex)
                 {
@@ -246,9 +230,9 @@ public class UsuarioDao {
             cs.setString(2, password);
             rs = cs.executeQuery();
             if (rs.next()) {
-                Usuario u = new Usuario(
-                        rs.getInt("idUsuario"), 
-                        rs.getString("mailUsuario"));
+                Usuario u = new Usuario();
+                u.setId(rs.getInt("idUsuario"));
+                u.setNickname(rs.getString("nickname"));
                 return u;
             }
             return null;

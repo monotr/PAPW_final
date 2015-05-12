@@ -22,14 +22,13 @@
 <![endif]-->
 <script type="text/javascript" src="js/boxOver.js"></script>
 </head>
-<body>
+<body onload='started();'>
 
 
     
  <div id="main_container">   
      
   <div id="header"> 
- 
       <div class="categori_box">
           <h1>Categorias:</h1>
         <%
@@ -189,6 +188,8 @@
   </div>
   <!-- end of main content -->
 
+  <!-- INICIO BARRA SUPERIOR -->  
+  
        <div class="top_bar">
        
        <div id="logo">
@@ -207,24 +208,43 @@
                         <input type="checkbox" name="nombre_articulo" checked> Nombre de Articulo
                         <input type="checkbox" name="nombre_del_vendedor"> Nombre del Vendedor
                         <input type="checkbox" onclick="check();" name="fechaOpt" id="fechaOpt"> Fecha
+                        <div class="fechas_busqueda">
                         <br><label id="fechaDesde">Fecha Desde: <input type="date" name="fechaD"></label>
                         <br><label id="fechaHasta">Fecha Hasta: <input type="date" name="fechaH"></label>
+                        </div>
                     </div>
                 </form>
     </div>
     
          <script>
+                function started(){
+                    document.getElementById("fechaDesde").style.visibility = "hidden";
+                    document.getElementById("fechaHasta").style.visibility = "hidden";
+                }
+             
                 function check() {
                     if(document.getElementById("fechaOpt").checked){
-                        document.getElementById("fechaDesde").style.display = 'block';
-                        document.getElementById("fechaHasta").style.display = 'block';
+                        document.getElementById("fechaDesde").style.visibility = "visible";
+                        document.getElementById("fechaHasta").style.visibility = "visible";
                         
                         document.getElementById("fechaDesde").value = (new Date()).format("dd/mm/yyyy");
                         document.getElementById("fechaDesde").value = (new Date()).format("dd/mm/yyyy");
                     }
                     else{
-                        document.getElementById("fechaDesde").style.display = 'none';
-                        document.getElementById("fechaHasta").style.display = 'none';
+                        document.getElementById("fechaDesde").style.visibility = "hidden";
+                        document.getElementById("fechaHasta").style.visibility = "hidden";
+                    }
+                    check_new_user();
+                }
+                
+                function check_new_user() {
+                    if(document.getElementById("new_user").checked){
+                        document.getElementById("filaPass").style.visibility = "hidden";
+                        document.login.action = "SendEmailServlet";
+                    }
+                    else{
+                        document.getElementById("filaPass").style.visibility = "visible";
+                        document.login.action = "index";
                     }
                 }
             </script>
@@ -232,28 +252,59 @@
          <!-- FIN BUSQEUDA -->
          
          <!-- LOGIN -->
-         <form action="index" method="post">
+         <%
+      session = request.getSession();
+      if(session.getAttribute("id") == null){
+      %>
+         <div class="login_table">
+         <form action="index" method="post" name="login">
             <table border="1">
                 <tr>
                     <td>Email:</td>
                     <td><input type="text" name="email" value=""/></td>
                 </tr>
-                <tr>
+                <tr id="filaPass">
                     <td>Password:</td>
-                    <td><input type="password" name="password" value=""/></td>
+                    <td><input type="password" name="password" id="password" value=""/></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
                         <input type="submit" value="Entrar"/>
+                        <input type="checkbox" name="new_user" id="new_user" onclick="check_new_user();"> Nuevo usuario
+                        <br><% if (request.getAttribute("mensaje") != null) { %>
+            <div style="color: red"><%= request.getAttribute("mensaje") %> </div>
+        <% } %>
                     </td>
                 </tr>
             </table>
         </form>
+         </div> 
+         <% } 
+      else {%>
+      
+      <div class="login_table">
+         <form action="index?accion=borrar" method="post" name="login">
+            <table border="1">
+                <tr>
+                    <td>User: <%= session.getAttribute("nickname") %></td>
+                </tr>
+                <tr>
+                    <td><a href="producto_lista.jsp">Mi cuenta</a></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Log Out"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+         </div>
+      
+      <% } %>
          
-         <% if (request.getAttribute("mensaje") != null) { %>
-            <div style="color: red"><%= request.getAttribute("mensaje") %> </div>
-        <% } %>
         <!-- FIN LOGIN -->
+        
+          <!-- fin BARRA SUPERIOR -->
          
          <!-- RESULTADO BUSQEUDA -->
          <div>
@@ -275,9 +326,8 @@
            <!-- FIN BUSQEUDA -->
        
     <div class="top_bar_options">
-         <a href="Perfil_productos.html">Perfil</a>
-        <a href="login.html">Login</a>
-         <a href="singup.html">Singup</a>          
+         
+        
     </div>
 
       
