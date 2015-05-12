@@ -1,12 +1,14 @@
 <%-- 
-    Document   : Busqueda
-    Created on : 7/05/2015, 11:23:24 PM
+    Document   : anuncioDetalle
+    Created on : 11/05/2015, 09:22:50 PM
     Author     : Monotr_
 --%>
 
+<%@page import="agenda.model.Producto"%>
+<%@page import="agenda.data.AnuncioDao"%>
+<%@page import="agenda.model.Anuncio"%>
 <%@page import="agenda.model.Categoria"%>
 <%@page import="agenda.data.ProductoDao"%>
-<%@page import="agenda.model.Anuncio"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -45,38 +47,89 @@
          </div>
 
         <div id="main_content">
-            <div class="left_area">
-                <div class="left_area_content" > <a href="Resumen.html">Resumen</a> </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Ventas</a>  </div>
-                <div class="left_area_content"> <a href="producto_lista.jsp">Productos</a> </div>
-                <div class="left_area_content"><a href="anuncio_lista.jsp"> Anuncios</a>  </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Compras</a>  </div>
-                <div class="left_area_content"> <a href="usuario_create.jsp">Configuracion de perfil</a> </div>
-            </div>
-            
-            <!-- One prodcut -->
 
-            <div class="main_perfil">
-                <!-- RESULTADO -->
-            <div>
-                <%
-                    if(request.getAttribute("anuncios") != null)
+            
+            <!-- Content START -->
+            <%
+                    Anuncio anunc = AnuncioDao.obtenerUsuario(8);
+//Integer.parseInt(request.getParameter("id")));
+                    //request.setAttribute("anuncios", anunc);
+                    
+                    if(anunc != null)
                     {
-                        List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios");
-                        for(Anuncio anunciox: anuncios)
-                        {
-                %>
-                <img width="30px" height="30px" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + anunciox.getIdProducto() + "&col=1" %>" />
-                     / <%= anunciox.getNombreProducto()%>  / <%= anunciox.getPrecio()%> / <%= anunciox.getExistencia()%> / <%= anunciox.getSubcategoria()%>
-                    <hr>
-                <%
-                        }
-                    }
-                %>
+                        Producto tempProd = ProductoDao.obtenerUsuario(anunc.getIdProducto());
+                        anunc.setDescCorta(tempProd.getDescCorta());
+                        anunc.setPrecio(tempProd.getPrecio());
+                        anunc.setExistencia(tempProd.getExistencia());
+                        anunc.setSubcategoria(tempProd.getNombreSubcategoria());
+              %>
+            
+            
+      <div class="prod_box_big">
+        <div class="top_prod_box_big"></div>
+        <div class="center_prod_box_big">
+
+          <div class="details_big_box">
+            <div class="product_title_big">Producto</div>
+            <div class="specifications"> Título:  <span class="blue"><%= anunc.getDescCorta() %></span><br />
+              Exstencia: <span class="blue"><%= anunc.getExistencia()%></span><br />
+              Fecha de publicación: <span class="blue"><%= anunc.getFechPublicacion() %></span><br />
+              Vendedor: <span class="blue"><%= anunc.getNickname()%></span><br />
             </div>
-            <!-- FIN RESULTADO -->
-            </div>
-                <!-- END One prodcut -->
+            <!--<div class="prod_price_big"><span class="reduce">350$</span> <span class="price">270$</span></div>-->
+            <div class="prod_price_big"><span class="price">$<%= anunc.getPrecio()%></span></div>
+            <div class="button_comprar"><button id="serch_button">Comprar</button> </div>
+            <!--<a href="#" class="addtocart">add to cart</a> <a href="#" class="compare">compare</a> </div>-->
+            
+        </div>
+        <div class="bottom_prod_box_big"></div>
+      </div>
+              
+        
+        <div class="product_img_big"><img width="100px" height="100px" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + tempProd.getId() + "&col=1" %>" />
+         <div class="thumbs"> <input width="40px" height="40px" type="image" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + tempProd.getId() + "&col=1" %>">
+                              <input width="40px" height="40px" type="image" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + tempProd.getId() + "&col=2" %>">
+                              <input width="40px" height="40px" type="image" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + tempProd.getId() + "&col=3" %>"> </div>
+          
+     </div>   
+
+    
+    <div class="prod_details_big">
+        <div class="videos">
+            <video width="320" height="240" controls>
+            </video>
+            <video width="320" height="240" controls>
+            </video>
+            <video width="320" height="240" controls>
+            </video>
+        </div>
+    </div>
+  <!-- end of main content -->
+
+<div class="comentary_area">
+    <div class="tex_comentary">
+        <textarea rows="10" cols="100"></textarea><p>
+        <button class="send_comentary">Submit</button>
+        
+    </div>
+    <div class="past_comentarys">
+        Comentary:---------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------------------------------------------
+      
+    </div>
+    <p></p>
+  
+    
+     <div class="past_comentarys">
+        Comentary2:---------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------------------------------------------
+    </div>
+    
+</div>
+  <% } %>
+  
+   </div>
+                <!-- Content END -->
 
         </div>    
         </div> 

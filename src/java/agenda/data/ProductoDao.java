@@ -122,7 +122,7 @@ public class ProductoDao {
         }
     }
     
-    public static List<Producto> buscar() throws SQLException
+    public static List<Producto> buscar(int idUS) throws SQLException
     {
        ConexionPool pool = ConexionPool.getInstancia();
         Connection con = pool.getConexion();
@@ -131,7 +131,8 @@ public class ProductoDao {
         try
         {
             //String query = "{call buscarContactos ()}";
-            cs = con.prepareCall("{call buscar_todos_productos()}");
+            cs = con.prepareCall("{call buscar_todos_productos(?)}");
+            cs.setInt(1, idUS);
             rs = cs.executeQuery();
             
             List<Producto> productos = new ArrayList<Producto>();

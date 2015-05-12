@@ -25,20 +25,13 @@
                 <table width ="25%" border ="1" cellpadding ="5" cellspacing ="5">
                     <tr>
                         <th width="30%">Vigencia: </th>
-                        <td width="70%"><input type="text" name="vigencia" value="<%= anuncio == null? "" : anuncio.getVigencia()%>"></td>
+                        <td width="70%"><input type="date" name="vigencia" value="<%= anuncio == null? "" : anuncio.getVigencia()%>"></td>
                     </tr>
-                     <tr>
-                        <th>Thumbnail: </th>
-                        <td><input type="text" name="thumbnail" value="<%= anuncio == null? "" : anuncio.getThumbnail()%>"></td>
-                    </tr>
-                     <tr>
-                        <th>Producto: </th>
-                        <td><input type="text" name="producto" value="<%= anuncio == null? "" : anuncio.getIdProducto()%>"></td>
-                    </tr>
+                    <input type="hidden" name="producto" value="<%= request.getParameter("idProd") %>">
                      <tr>
                         <th>Métodos de pago: </th>
                         <td>
-                        <select name="metodosDePago">                            
+                        <select name="metodoPago">                            
                             <%
                                 List<MetodoPago> metPag = AnuncioDao.buscar_MP();
                                 request.setAttribute("metodosPago", metPag);
@@ -47,7 +40,7 @@
                                 if (metodos != null) {
                                     for (MetodoPago mets : metodos) {
                             %>
-                                        <option value="<%= mets.getNombre()%>"
+                            <option value="<%= mets.getId()%>"
                                                 <%= anuncio != null && anuncio.getIdMetodoPago() == mets.getId() ? "selected" : "" %>
                                                 ><%= mets.getNombre() %>
                                         </option>
@@ -61,7 +54,7 @@
                     </tr>
                         <td colspan="2" align="center">
                             <input type="hidden" name="id" value="<%= anuncio == null? "" : anuncio.getId()%>"/>
-                            <input type="hidden" name="idUsuario" value="1"/>
+                            <input type="hidden" name="idUsuario" value="<%= session.getAttribute("id") %>"/>
                             <input type="submit" value="Guardar"/>
                         </td>
                     </tr>

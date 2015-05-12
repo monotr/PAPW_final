@@ -34,12 +34,13 @@ public class IndexServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         
         String accion = request.getParameter("accion");
         if ("borrar".equals(accion)) {
             HttpSession session = request.getSession();
             session.removeAttribute("user");
+            session.removeAttribute("id");
+            session.removeAttribute("nickname");
             session.invalidate();
             RequestDispatcher disp = getServletContext().
                         getRequestDispatcher("/index.jsp");
@@ -52,8 +53,10 @@ public class IndexServlet extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user); //aqui mete valorea a guardar en usuario
+                session.setAttribute("id", user.getId());
+                session.setAttribute("nickname", user.getNickname());
                 RequestDispatcher disp = getServletContext().
-                        getRequestDispatcher("/lista.jsp");
+                        getRequestDispatcher("/index.jsp");
                 disp.forward(request, response);
             } else {
                 String mensaje = "Usuario no existe.";

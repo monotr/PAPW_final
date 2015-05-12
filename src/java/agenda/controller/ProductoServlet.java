@@ -157,7 +157,7 @@ public class ProductoServlet extends HttpServlet {
                 }
             }
             
-            List<Producto> prod = ProductoDao.buscar();
+            List<Producto> prod = ProductoDao.buscar(Integer.parseInt(id));
             request.setAttribute("productos", prod);
             
             RequestDispatcher disp = getServletContext().getRequestDispatcher(path);

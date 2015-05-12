@@ -6,8 +6,10 @@
 package agenda.controller;
 
 import agenda.data.AnuncioDao;
+import agenda.data.ProductoDao;
 import agenda.model.Anuncio;
 import agenda.model.MetodoPago;
+import agenda.model.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -74,11 +76,17 @@ public class AnuncioServlet extends HttpServlet {
                     AnuncioDao.actualizar(anuncio);
                 }
                 else{
+                    Producto tempProd = ProductoDao.obtenerUsuario(Integer.parseInt(producto));
+                    anuncio.setDescCorta(tempProd.getDescCorta());
+                    anuncio.setPrecio(tempProd.getPrecio());
+                    anuncio.setExistencia(tempProd.getExistencia());
+                    anuncio.setSubcategoria(tempProd.getNombreSubcategoria());
+                    
                     AnuncioDao.insertar(anuncio);
                 }
             }
             
-            List<Anuncio> anun = AnuncioDao.buscar();
+            List<Anuncio> anun = AnuncioDao.buscar(1); // checar que id va aqui
             request.setAttribute("anuncios", anun);
                         
             RequestDispatcher disp = getServletContext().getRequestDispatcher(path);
