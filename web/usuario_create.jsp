@@ -3,6 +3,7 @@
     Created on : 21-abr-2015, 12:55:53
     Author     : FCFM
 --%>
+<%@page import="agenda.data.UsuarioDao"%>
 <%@page import="agenda.data.ProductoDao"%>
 <%@page import="agenda.model.Categoria"%>
 <%@page import="java.util.ArrayList"%>
@@ -45,12 +46,11 @@
 
         <div id="main_content">
             <div class="left_area">
-                
-                <div class="left_area_content" > <a href="Resumen.html">Resumen</a> </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Ventas</a>  </div>
+                <div class="left_area_content" > <a href="resumen_usuario.jsp">Resumen</a> </div>
+                <div class="left_area_content"><a href="ventas_lista.jsp">Ventas</a>  </div>
                 <div class="left_area_content"> <a href="producto_lista.jsp">Productos</a> </div>
                 <div class="left_area_content"><a href="anuncio_lista.jsp"> Anuncios</a>  </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Compras</a>  </div>
+                <div class="left_area_content"><a href="compras_lista.jsp">Compras</a>  </div>
                 <div class="left_area_content"> <a href="usuario_create.jsp">Configuracion de perfil</a> </div>
             </div>
             
@@ -60,28 +60,84 @@
                 <h1>Detalle de Usuario</h1>
             <%
                 Usuario usuario = (Usuario) request.getAttribute("usuario");
-            %>
-            <form action="DetallesUsuarioServlet" method="post" enctype="multipart/form-data">
+                
+                if(usuario == null){
+                    usuario = UsuarioDao.obtenerUsuario(Integer.parseInt(session.getAttribute("id").toString()));
+                }
+            %> 
+            
                 <table width ="25%" border ="1" cellpadding ="5" cellspacing ="5">
                     <tr>
-                        <th width="30%">Nickame: </th>
-                        <td width="70%"><input type="text" name="nickname" value="<%= usuario == null? "" : usuario.getNickname()%>"</td>
+                        <th width="30%">Cambiar Contraseña: </th>
+                        <td width="70%">
+                            Antigua contraseña: <input type="password" id="oldPass" value="<%= request.getParameter("contraseniaRAND") == null ? "" : request.getParameter("contraseniaRAND") %>"> <br>
+                            Nueva contraseña:<input type="password" id="contrasenia"> <br>
+                            Repetir Contraseña: <input type="password" id="newnewPass"> <br>
+                            <input type="hidden" id="id" value="<%= usuario == null? "" : usuario.getId()%>"/>
+                            <button onclick="changePass()" id="serch_button">Cambiar</button>
+                            
+                            </td>  
                     </tr>
+                </table>
+                            
+            <script>
+            function changePass() {
+                var usPass = <%= usuario.getContrasenia() %>;
+                alert(usPass);        
+                var oldP = document.getElementById('oldPass').value;
+                alert(oldP);
+                if(oldP == usPass){
+                    alert("si");
+                    var newP = document.getElementById('contrasenia').value;
+                    var newnewP = document.getElementById('newnewPass').value;
+                    if(newP != "" && newP != null){
+                        if(newP == newnewP)
+                        window.location.href ="<%= request.getServletContext().getContextPath() %>" +
+                           "/DetallesUsuarioServlet?id=" + document.getElementById('id').value +
+                           "&contrasenia=" + document.getElementById('newnewPass').value;
+                        else
+                            alert("Las contraseñas no coinciden");
+                    }
+                    else
+                        alert("Debe ingresar contraseña nueva");
+                }
+                else
+                    alert("La antigua contraseña es inválida");
+            }
+            
+            function borrarUsuario(){
+                var sure = confirm("Al eliminar cuenta se eliminarán todos tus Productos, Anuncios y Preguntas");
+                if(sure == true){
+                    window.location.href ="<%= request.getServletContext().getContextPath() %>" +
+                           "/DetallesUsuarioServlet?id=" + document.getElementById('id').value +
+                           "&accion=borrar";
+                }
+            }
+            </script>
+                            
+                        
+                            
+            
+            
+            <form action="DetallesUsuarioServlet" method="post" enctype="multipart/form-data">
+                  <table width ="25%" border ="1" cellpadding ="5" cellspacing ="5">          
                     <tr>
-                        <th width="30%">NUEVA Contraseña: </th>
-                        <td width="70%"><input type="password" name="contrasenia"></td>
+                        <th width="30%">Nickame: </th>
+                        <td width="70%">
+                            <input type="text" name="nickname" value="<%= usuario == null? "" : usuario.getNickname()%>">
+                        </td>
                     </tr>
                     <tr>
                         <th width="30%">Imagen de usuario: </th>
                         <td width="70%">
-                            <img width="300px" height="300px" src="<%= usuario == null? "" : request.getServletContext().getContextPath() + "/UsuarioMultimediaServlet?id=" + usuario.getId() %>" />
+                            <img width="150px" height="150px" src="<%= usuario == null? "" : request.getServletContext().getContextPath() + "/UsuarioMultimediaServlet?id=" + usuario.getId() %>" />
                             <input type="file" name="archivo">
                         </td>
                     </tr>
                     <tr>
                     <tr>
                         <th width="30%">Nombre: </th>
-                        <td width="70%"><input type="text" name="nombre" value="<%= usuario == null? "" : usuario.getNombre()%>"</td>
+                        <td width="70%"><input type="text" name="nombre" value="<%= usuario == null? "" : usuario.getNombre()%>"></td>
                     </tr>
                     <tr>
                         <th>Apellido Paterno: </th>
@@ -154,6 +210,11 @@
                     </tr>
                 </table>
             </form>
+                            <br>
+                            <form action="DetallesUsuarioServlet" method="post">
+                                <a onclick="borrarUsuario()">Eliminar cuenta</a>
+                            </form>
+                            
             </div>
                 <!-- END user form -->
 
@@ -165,7 +226,7 @@
        <div class="top_bar">
        
        <div id="logo">
-       <form action="index.html">
+       <form action="index.jsp">
        <input type="image" src="Css/images/demo_logo.png" alt="Submit" width="120" height="100">
       </form>
        </div>
@@ -287,6 +348,7 @@
       
  </div>
 
+      
         
     </body>
 </html>

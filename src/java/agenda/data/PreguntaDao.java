@@ -99,7 +99,7 @@ public class PreguntaDao {
         }
     }
     
-    public static List<Pregunta> buscar(int idAnuncio) throws SQLException
+    public static List<Pregunta> buscar(int id, boolean anuncioUsuario) throws SQLException
     {
        ConexionPool pool = ConexionPool.getInstancia();
         Connection con = pool.getConexion();
@@ -107,9 +107,12 @@ public class PreguntaDao {
         ResultSet rs = null;
         try
         {
-            //String query = "{call buscarContactos ()}";
-            cs = con.prepareCall("{call buscar_preguntas_por_anuncio(?)}");
-            cs.setInt(1, idAnuncio);
+            if(anuncioUsuario)
+                cs = con.prepareCall("{call buscar_preguntas_por_usuario(?)}");
+            else
+                cs = con.prepareCall("{call buscar_preguntas_por_anuncio(?)}");
+            
+            cs.setInt(1, id);
             rs = cs.executeQuery();
             
             List<Pregunta> preguntas = new ArrayList<Pregunta>();
@@ -123,6 +126,10 @@ public class PreguntaDao {
                 pregunta.setRespuestaRealizada(rs.getInt("respuestaRealizada"));
                 pregunta.setIdUsuario(rs.getInt("Usuario_id"));
                 pregunta.setIdAnuncio(rs.getInt("Anuncio_id"));
+                if(anuncioUsuario){
+                    pregunta.setIdProducto(rs.getInt("idProducto"));
+                    pregunta.setDescCorta(rs.getString("descripcionCorta"));
+                }
                 preguntas.add(pregunta);
             }
             return preguntas;

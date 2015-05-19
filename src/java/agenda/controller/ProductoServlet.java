@@ -110,7 +110,7 @@ public class ProductoServlet extends HttpServlet {
                 
                 //IMAGEN
                 String uploadPath = getServletContext().getRealPath("/" + directorio + "/");
-                System.out.println("PATH: " + uploadPath);
+                //System.out.println("PATH: " + uploadPath);
 
                 File fdir = new File(uploadPath);
                 if (!fdir.exists()) {
@@ -118,7 +118,8 @@ public class ProductoServlet extends HttpServlet {
                 }
 
                 for(int i=0; i<6; i++){
-                    if(request.getPart(multimedia[i]) != null){
+                    if(request.getPart(multimedia[i]) != null &&
+                            !request.getPart(multimedia[i]).equals("")){
                         Part filePart = request.getPart(multimedia[i]);
                         Archivo archivo = new Archivo();
                         archivo.setIdUser(Integer.parseInt(id));

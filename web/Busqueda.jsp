@@ -65,11 +65,13 @@
                         List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios");
                         for(Anuncio anunciox: anuncios)
                         {
+                            if(anunciox.getExistencia() != 0){
                 %>
                 <img width="30px" height="30px" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + anunciox.getIdProducto() + "&col=1" %>" />
                      / <%= anunciox.getNombreProducto()%>  / <%= anunciox.getPrecio()%> / <%= anunciox.getExistencia()%> / <%= anunciox.getSubcategoria()%>
                     <hr>
                 <%
+                            }
                         }
                     }
                 %>

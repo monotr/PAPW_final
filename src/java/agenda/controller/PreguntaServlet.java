@@ -34,44 +34,46 @@ public class PreguntaServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    String path, id;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            String path = "/";
+            
             String accion = request.getParameter("accion");
-            String id = request.getParameter("id");
+            id = request.getParameter("id");
+            path = "/anuncioDetalle.jsp?id=" + id;
             String textoRespuesta = request.getParameter("respuesta");
             String textoPregunta = request.getParameter("pregunta");
-            String idAnuncio = request.getParameter("idAnuncio");
             String idUsuario = request.getParameter("idUsuario");
             
             if (accion != null && id != null && accion.equals("borrar"))
             {
                 PreguntaDao.borrar(Integer.parseInt(id));
+                path = "/resumen_usuario.jsp";
             }
             else if(accion != null && accion.equals("responder")){
                 Pregunta respuesta = new Pregunta();
                 respuesta.setTextoRespuesta(textoRespuesta);
                 respuesta.setIdPregunta(Integer.parseInt(id));
                 PreguntaDao.agregarRespuesta(respuesta);
+                path = "/resumen_usuario.jsp";
             }
             else if(accion != null && accion.equals("preguntar")){
                 Pregunta pregunta = new Pregunta();
                 pregunta.setTextoPregunta(textoPregunta);
-                pregunta.setIdAnuncio(Integer.parseInt(idAnuncio));
+                pregunta.setIdAnuncio(Integer.parseInt(id));
                 pregunta.setIdUsuario(Integer.parseInt(idUsuario));
                 PreguntaDao.insertarPregunta(pregunta);
             }
-            
-            path = "/preguntas_lista.jsp";
-            
+        }
+        finally {
             RequestDispatcher disp = getServletContext().getRequestDispatcher(path);
             disp.forward(request, response);
-        }
-        finally {            
+            
             out.close();
         }
     }

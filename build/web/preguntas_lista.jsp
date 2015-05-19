@@ -4,6 +4,8 @@
     Author     : Monotr_
 --%>
 
+<%@page import="agenda.model.Usuario"%>
+<%@page import="agenda.data.UsuarioDao"%>
 <%@page import="agenda.data.PreguntaDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="agenda.model.Pregunta"%>
@@ -39,7 +41,8 @@
                 <tr>
                 <form action="PreguntaServlet" method="post">
                     <td>
-                        <%= pregunta.getIdUsuario()%> :  <%= pregunta.getTextoPregunta()%>
+                        <% Usuario u = UsuarioDao.obtenerUsuario(pregunta.getIdUsuario()); %>
+                        <%= u.getNickname()%> :  <%= pregunta.getTextoPregunta()%>
                         <hr>
                     <% if(pregunta.getRespuestaRealizada() == 0){
                     %><input type="text" name="respuesta" value="">
@@ -63,7 +66,7 @@
                 </tr>
                 <tr>
                     <form action="PreguntaServlet" method="post">
-                    <input type="hidden" name="idAnuncio" value="1"/>
+                    <input type="hidden" name="idAnuncio" value="3"/>
                     <input type="hidden" name="idUsuario" value="1"/>
                     <input type="hidden" name="accion" value="preguntar"/>
                     <td><input type="text" name="pregunta" value=""></td>

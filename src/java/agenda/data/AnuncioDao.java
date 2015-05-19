@@ -165,6 +165,7 @@ public class AnuncioDao {
             
             if(rs.next()){
                 Anuncio anuncio = new Anuncio();
+                anuncio.setNickname(rs.getString("nickname"));
                 anuncio.setId(rs.getInt("idAnuncio"));
                 anuncio.setVigencia(rs.getString("vigenciaAnuncio"));
                 anuncio.setFechPublicacion(rs.getString("fechaPublicacion"));
@@ -248,6 +249,7 @@ public class AnuncioDao {
                 anuncio.setPrecio(rs.getFloat("precioProducto"));
                 anuncio.setNickname(rs.getString("nickname"));
                 anuncio.setDescCorta(rs.getString("descripcionCorta"));
+                anuncio.setExistencia(rs.getInt("existenciaProducto"));
                 anuncios.add(anuncio);
             }
             return anuncios;

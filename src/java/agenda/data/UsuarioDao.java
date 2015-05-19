@@ -61,25 +61,52 @@ public class UsuarioDao {
                 sexoA = "M";
             else
                 sexoA = "F";
-            String query = "{call mod_usuario (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+            String query = "{call mod_usuario (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
             cs = con.prepareCall(query);
-            cs.setString(1,usuario.getNickname());
+            //cs.setString(1,usuario.getNickname());
+            //cs.setString(2,usuario.getContrasenia());
+            cs.setString(1,usuario.getEmail());
+            //cs.setBlob(4,usuario.getImagen());
+            cs.setString(2,usuario.getNombre());
+            cs.setString(3,usuario.getApellidoPaterno());
+            cs.setString(4,usuario.getApellidoMaterno());
+            cs.setString(5,usuario.getFechaNacimiento());
+            cs.setString(6,sexoA);
+            cs.setString(7,usuario.getColonia());
+            cs.setString(8,usuario.getCalle());
+            cs.setString(9,usuario.getNumCasa());
+            cs.setInt(10,usuario.getCp());
+            cs.setString(11,usuario.getCiudad());
+            cs.setString(12,usuario.getEstado());
+            cs.setString(13,usuario.getPais());
+            cs.setInt(14,usuario.getId());
+            cs.setString(15,usuario.getNickname());
+            cs.execute();
+            return 1;
+       }
+        catch(SQLException ex)
+                {
+                    ex.printStackTrace();
+                    return -1;
+                }
+        finally 
+        {
+            DBUtil.cerrarStatement(cs);
+            pool.liberarConexion(con);
+        }
+    }
+    
+    public static int actualizarContrasena(Usuario usuario) throws SQLException
+    {
+        ConexionPool pool = ConexionPool.getInstancia();
+        Connection con = pool.getConexion();
+        CallableStatement cs = null;
+        try
+        {
+            String query = "{call mod_usuario_contraseña (?,?)}";
+            cs = con.prepareCall(query);
             cs.setString(2,usuario.getContrasenia());
-            cs.setString(3,usuario.getEmail());
-            cs.setBlob(4,usuario.getImagen());
-            cs.setString(5,usuario.getNombre());
-            cs.setString(6,usuario.getApellidoPaterno());
-            cs.setString(7,usuario.getApellidoMaterno());
-            cs.setString(8,usuario.getFechaNacimiento());
-            cs.setString(9,sexoA);
-            cs.setString(10,usuario.getColonia());
-            cs.setString(11,usuario.getCalle());
-            cs.setString(12,usuario.getNumCasa());
-            cs.setInt(13,usuario.getCp());
-            cs.setString(14,usuario.getCiudad());
-            cs.setString(15,usuario.getEstado());
-            cs.setString(16,usuario.getPais());
-            cs.setInt(17,usuario.getId());
+            cs.setInt(1,usuario.getId());
             cs.execute();
             return 1;
        }

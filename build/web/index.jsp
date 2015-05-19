@@ -73,10 +73,12 @@
                 List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios_home0");
                 for(Anuncio anuncio: anuncios)
                 {
+                    if(anuncio.getExistencia() != 0){
          %>    
      <div class="prod_box">
         <div class="center_prod_box">
-          <div class="prod_price"><span class="price"> <%=anuncio.getDescCorta()%> </span></div>
+          <div class="prod_price"><span class="price"> <a href="<%= request.getServletContext().getContextPath() +
+                           "/anuncioDetalle.jsp?id="+anuncio.getId() %>"><%=anuncio.getDescCorta()%></a> </span></div>
           <div class="prod_price"><span class="price"> <%=anuncio.getPrecio()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getNickname()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getFechPublicacion()%> </span></div>
@@ -84,7 +86,8 @@
         </div>
      </div>
       
-      <% }
+      <%        }
+            }
          }%>
       
     </fieldset>  
@@ -103,10 +106,12 @@
                 List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios_home0");
                 for(Anuncio anuncio: anuncios)
                 {
+                    if(anuncio.getExistencia() != 0){
          %>    
      <div class="prod_box">
         <div class="center_prod_box">
-          <div class="prod_price"><span class="price"> <%=anuncio.getDescCorta()%> </span></div>
+          <div class="prod_price"><span class="price"> <a href="<%= request.getServletContext().getContextPath() +
+                           "/anuncioDetalle.jsp?id="+anuncio.getId() %>"><%=anuncio.getDescCorta()%></a> </span></div>
           <div class="prod_price"><span class="price"> <%=anuncio.getPrecio()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getNickname()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getFechPublicacion()%> </span></div>
@@ -115,6 +120,7 @@
      </div>
       
       <% }
+                }
          }%>
       
     </fieldset>  
@@ -133,10 +139,12 @@
                 List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios_home0");
                 for(Anuncio anuncio: anuncios)
                 {
+                    if(anuncio.getExistencia() != 0){
          %>    
      <div class="prod_box">
         <div class="center_prod_box">
-          <div class="prod_price"><span class="price"> <%=anuncio.getDescCorta()%> </span></div>
+          <div class="prod_price"><span class="price"> <a href="<%= request.getServletContext().getContextPath() +
+                           "/anuncioDetalle.jsp?id="+anuncio.getId() %>"><%=anuncio.getDescCorta()%></a> </span></div>
           <div class="prod_price"><span class="price"> <%=anuncio.getPrecio()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getNickname()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getFechPublicacion()%> </span></div>
@@ -145,6 +153,7 @@
      </div>
       
       <% }
+                }
          }%>
       
     </fieldset>  
@@ -163,10 +172,12 @@
                 List<Anuncio> anuncios = (ArrayList<Anuncio>)request.getAttribute("anuncios_home0");
                 for(Anuncio anuncio: anuncios)
                 {
+                    if(anuncio.getExistencia() != 0){
          %>    
      <div class="prod_box">
         <div class="center_prod_box">
-          <div class="prod_price"><span class="price"> <%=anuncio.getDescCorta()%> </span></div>
+          <div class="prod_price"><span class="price"> <a href="<%= request.getServletContext().getContextPath() +
+                           "/anuncioDetalle.jsp?id="+anuncio.getId() %>"><%=anuncio.getDescCorta()%></a> </span></div>
           <div class="prod_price"><span class="price"> <%=anuncio.getPrecio()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getNickname()%> </span></div>
           <div class="prod_nickname"><span class="nickname"> <%=anuncio.getFechPublicacion()%> </span></div>
@@ -174,7 +185,8 @@
         </div>
      </div>
       
-      <% }
+      <%            }
+                }
          }%>
       
     </fieldset>  

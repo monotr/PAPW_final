@@ -18,8 +18,27 @@ public class Pregunta {
     private int respuestaRealizada;
     private int idUsuario;
     private int idAnuncio;
+    private int idProducto;
+    private String descCorta;
 
+    
     public Pregunta() {
+    }
+
+    public String getDescCorta() {
+        return descCorta;
+    }
+
+    public void setDescCorta(String descCorta) {
+        this.descCorta = descCorta;
+    }
+
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     public int getIdPregunta() {

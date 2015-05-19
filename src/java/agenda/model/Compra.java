@@ -17,10 +17,37 @@ public class Compra {
     private int estado;
     private int idComprador;
     private int idAnuncio;
+    private String nombreProducto;
+    private String nickNameComprador;
+    private String emailVendedor;
 
     public Compra() {
     }
 
+    public String getEmailVendedor() {
+        return emailVendedor;
+    }
+
+    public void setEmailVendedor(String emailVendedor) {
+        this.emailVendedor = emailVendedor;
+    }
+
+    public String getNickNameComprador() {
+        return nickNameComprador;
+    }
+
+    public void setNickNameComprador(String nickNameComprador) {
+        this.nickNameComprador = nickNameComprador;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+    
     public int getId() {
         return id;
     }

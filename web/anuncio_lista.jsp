@@ -52,11 +52,11 @@ and open the template in the editor.
          </div>
         <div id="main_content">
             <div class="left_area">
-                <div class="left_area_content" > <a href="Resumen.html">Resumen</a> </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Ventas</a>  </div>
+                <div class="left_area_content" > <a href="resumen_usuario.jsp">Resumen</a> </div>
+                <div class="left_area_content"><a href="ventas_lista.jsp">Ventas</a>  </div>
                 <div class="left_area_content"> <a href="producto_lista.jsp">Productos</a> </div>
                 <div class="left_area_content"><a href="anuncio_lista.jsp"> Anuncios</a>  </div>
-                <div class="left_area_content"><a href="Perfil_compras.html">Compras</a>  </div>
+                <div class="left_area_content"><a href="compras_lista.jsp">Compras</a>  </div>
                 <div class="left_area_content"> <a href="usuario_create.jsp">Configuracion de perfil</a> </div>
             </div>
             

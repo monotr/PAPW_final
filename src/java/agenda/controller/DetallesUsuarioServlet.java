@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -77,11 +78,24 @@ public class DetallesUsuarioServlet extends HttpServlet {
             String ciudad = request.getParameter("ciudad");
             String estado = request.getParameter("estado");
             String pais = request.getParameter("pais");
-            String cp = request.getParameter("cp");
+            String cp = "";
+            if(contrasenia == null)
+               cp = request.getParameter("cp");
             String sexo = request.getParameter("sexo");       
             
             
-            if(accion != null && accion.equals("editar")){
+            if(accion != null && accion.equals("borrar")){
+                UsuarioDao.borrar(Integer.parseInt(id));
+                
+                HttpSession session = request.getSession();
+                session.removeAttribute("user");
+                session.removeAttribute("id");
+                session.removeAttribute("nickname");
+                session.invalidate();
+                
+                path = "/index.jsp";
+            }
+            else if(accion != null && accion.equals("editar")){
                 Usuario usuario = UsuarioDao.obtenerUsuario(Integer.parseInt(id));
                 request.setAttribute("usuario", usuario);
                 path = "/usuario_create.jsp";
@@ -102,12 +116,16 @@ public class DetallesUsuarioServlet extends HttpServlet {
                 usuario.setCiudad(ciudad);
                 usuario.setEstado(estado);
                 usuario.setPais(pais);
-                usuario.setCp(Integer.parseInt(cp));
+                if(contrasenia == null)
+                    usuario.setCp(Integer.parseInt(cp));
                 usuario.setSexo(sexo);
                 
                 if(id != null && !id.equals("")){
                     usuario.setId(Integer.parseInt(id));
-                    UsuarioDao.actualizar(usuario);
+                    if(contrasenia == null)
+                        UsuarioDao.actualizar(usuario);
+                    else
+                        UsuarioDao.actualizarContrasena(usuario);
                 }
                 else{
                     UsuarioDao.insertar(usuario);
@@ -115,6 +133,7 @@ public class DetallesUsuarioServlet extends HttpServlet {
                 }
                 
                 //IMAGEN
+            if(request.getPart("archivo") != null && !request.getPart("archivo").equals("")){
                 String uploadPath = getServletContext().getRealPath("/" + directorio + "/");
                 System.out.println("PATH: " + uploadPath);
 
@@ -155,6 +174,8 @@ public class DetallesUsuarioServlet extends HttpServlet {
                         }
                     }
                 }
+            }
+                
                 
             }
             

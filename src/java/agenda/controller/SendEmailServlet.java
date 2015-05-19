@@ -70,8 +70,8 @@ public class SendEmailServlet extends HttpServlet {
             // se debe de cambiar por el dominio o la ip del servidor.
             String message = "<html><body>";
             message += "Presiona click para activar la cuenta.<br/>";
-            message += "<a href='http://localhost:8084/Practica8Act1/DetallesUsuarioServlet?accion=editar&email=" +
-                    email + "&contrasenia=" + verificationCode + "&id=" + id +"'>Activar</a>";
+            message += "<a href='http://52.25.27.233:8080/LMAD_store/DetallesUsuarioServlet?accion=editar&email=" +
+                    email + "&contraseniaRAND=" + verificationCode + "&id=" + id +"'>Activar</a>";
             message += "</body></html>";
             EmailUtility.sendEmail(host, port, user, pass, email, 
                     "Bienvenido!!!", message);

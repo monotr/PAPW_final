@@ -39,26 +39,35 @@ public class CompraServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
             String path = "/OtherUsuarioServlet";
-            
-            String cantidad = request.getParameter("cantidad");
-            String precioUnitario = request.getParameter("precioUnitario");
-            String comprador = request.getParameter("comprador");
-            String anuncioID = request.getParameter("anuncioID");
+            if(request.getParameter("confirmar") == null || request.getParameter("comprador") == ""){
+                
+                String cantidad = request.getParameter("cantidad");
+                String precioUnitario = request.getParameter("precioUnitario");
+                String comprador = request.getParameter("comprador");
+                String anuncioID = request.getParameter("anuncioID");
 
-            Compra compra = new Compra();
-            compra.setCantidad(Integer.parseInt(cantidad));
-            compra.setFecha(null);
-            compra.setTotal(Float.parseFloat(precioUnitario) * Integer.parseInt(cantidad));
-            compra.setEstado(0);
-            compra.setIdComprador(Integer.parseInt(comprador));
-            compra.setIdAnuncio(Integer.parseInt(anuncioID));
+                Compra compra = new Compra();
+                compra.setCantidad(Integer.parseInt(cantidad));
+                compra.setFecha(null);
+                compra.setTotal(Float.parseFloat(precioUnitario) * Integer.parseInt(cantidad));
+                compra.setEstado(0);
+                compra.setIdComprador(Integer.parseInt(comprador));
+                compra.setIdAnuncio(Integer.parseInt(anuncioID));
 
-            CompraDao.insertar(compra);
-            
-            RequestDispatcher disp = getServletContext().getRequestDispatcher(path);
-            disp.forward(request, response);
+                CompraDao.insertar(compra);
+
+                RequestDispatcher disp = getServletContext().getRequestDispatcher(path);
+                disp.forward(request, response);
+            }
+            else{
+                String id = request.getParameter("id");
+                
+                CompraDao.confirmar(Integer.parseInt(id));
+
+                RequestDispatcher disp = getServletContext().getRequestDispatcher(path);
+                disp.forward(request, response);
+            }
         }
         finally {            
             out.close();

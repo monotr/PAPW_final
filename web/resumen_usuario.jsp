@@ -1,15 +1,17 @@
 <%-- 
-    Document   : producto_edit
-    Created on : 5/05/2015, 07:10:48 PM
+    Document   : resumen_usuario
+    Created on : 18/05/2015, 01:59:30 AM
     Author     : Monotr_
 --%>
 
+<%@page import="agenda.data.UsuarioDao"%>
+<%@page import="agenda.model.Usuario"%>
+<%@page import="agenda.data.PreguntaDao"%>
+<%@page import="agenda.model.Pregunta"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="agenda.model.Categoria"%>
-<%@page import="agenda.model.Subcategoria"%>
 <%@page import="agenda.data.ProductoDao"%>
+<%@page import="agenda.model.Categoria"%>
 <%@page import="java.util.List"%>
-<%@page import="agenda.model.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -58,98 +60,58 @@
             <!-- One prodcut -->
 
             <div class="main_perfil">
-        <h1>Detalle de Producto</h1>
-            <%
-                Producto producto = (Producto) request.getAttribute("producto");
-            %>
-            <form action="ProductoServlet" method="post" enctype="multipart/form-data">
-                <table width ="25%" border ="1" cellpadding ="5" cellspacing ="5">
-                    <tr>
-                        <th width="30%">Descripción corta: </th>
-                        <td width="70%"><input type="text" name="descCorta" value="<%= producto == null? "" : producto.getDescCorta()%>"</td>
-                    </tr>
-                    <tr>
-                        <th>Descripción larga: </th>
-                        <td><input type="text" name="descLarga" value="<%= producto == null? "" : producto.getDescLarga()%>"</td>
-                    </tr>
-                     <tr>
-                        <th>Precio: $</th>
-                        <td><input type="number" name="precio" value="<%= producto == null? "" : producto.getPrecio()%>"</td>
-                    </tr>
-                     <tr>
-                        <th>Existencia: </th>
-                        <td><input type="number" name="existencia" value="<%= producto == null? "" : producto.getExistencia()%>"</td>
-                    </tr>
-                     <tr>
-                        <th>Vigencia: </th>
-                        <td><input type="date" name="vigencia" value="<%= producto == null? "" : producto.getVigencia()%>"</td>
-                    </tr>
-                    <tr>
-                        <th>Imagen 1: </th>
-                        <td>
-                            <img width="30px" height="30px" src="<%= producto == null? "" : request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + producto.getId() + "&col=1" %>" />
-                            <input type="file" name="imagen1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Imagen 2: </th>
-                        <td>
-                            <img width="30px" height="30px" src="<%= producto == null? "" : request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + producto.getId() + "&col=2" %>" />
-                            <input type="file" name="imagen2"></td>
-                    </tr>
-                    <tr>
-                        <th>Imagen 3: </th>
-                        <td>
-                            <img width="30px" height="30px" src="<%= producto == null? "" : request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + producto.getId() + "&col=3" %>" />
-                            <input type="file" name="imagen3"></td>
-                    </tr>
-                    <tr>
-                        <th>Video 1: </th>
-                        <td><input type="file" name="video1"></td>
-                    </tr>
-                    <tr>
-                        <th>Video 2: </th>
-                        <td><input type="file" name="video2"></td>
-                    </tr>
-                    <tr>
-                        <th>Video 3: </th>
-                        <td><input type="file" name="video3"></td>
-                    </tr>
+            <h1>Mis preguntas</h1>
+            <table width ="70%" border ="1" cellpadding ="5" cellspacing ="5">
+                <tr>
+                    <th> Anuncio </th>
+                    <th> Pregunta </th>
+                    <th width ="6%" > Responder </th>
+                    <th width ="6%" > Borrar </th>
+                </tr>
+                <%
                     
-                    <tr>
-                        <th>Subcategoría: </th>
-                        <td>
-                        <select name="subcategoria">                            
-                            <%
-                                List<Subcategoria> subCat = ProductoDao.buscar_subcategorias();
-                                request.setAttribute("subcategorias", subCat);
-                            
-                                List<Subcategoria> subs = (List<Subcategoria>) request.getAttribute("subcategorias");
-                                if (subs != null) {
-                                    for (Subcategoria sub : subs) {
-                            %>
-                                        <option value="<%= sub.getId()%>">
-                                                <%= producto != null && producto.getIdSubcategoria() == sub.getId() ? "selected" : "" %>
-                                                <%= sub.getNombre() %>
-                                        </option>
-                            <%
-                                    }
-                                }
-                            %>
-                        </select>
-                    </td>
+                    List<Pregunta> preg = PreguntaDao.buscar(Integer.parseInt(session.getAttribute("id").toString()), true);
+                    request.setAttribute("preguntas", preg);
+                    
+                    if(request.getAttribute("preguntas") != null)
+                    {
+                        List<Pregunta> preguntas = (ArrayList<Pregunta>)request.getAttribute("preguntas");
+                        for(Pregunta pregunta: preguntas)
+                        {
+                            if(pregunta.getRespuestaRealizada() != 1){
+                %>
+                
+                <tr>
+                <form action="PreguntaServlet" method="post">
+                    <td>
+                        <img width="100px" height="100px" src="<%= request.getServletContext().getContextPath() + "/ProductoMultimediaServlet?id=" + pregunta.getIdProducto() + "&col=1" %>" />
+                        <br>
+                        <a href="<%= request.getServletContext().getContextPath() +
+                           "/anuncioDetalle.jsp?id="+ pregunta.getIdAnuncio() %>"><%= pregunta.getDescCorta() %></a>
                         
-                    </tr>
-                    
-                    <tr>
-                        <td colspan="2" align="center">
-                            <input type="hidden" name="id" value="<%= producto == null? "" : producto.getId()%>"/>
-                            <input type="hidden" name="idUsuario" value="<%= session.getAttribute("id") %>"/>
-                            <input type="submit" value="Guardar"/>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                    </td>
+                    <td>
+                        <% Usuario u = UsuarioDao.obtenerUsuario(pregunta.getIdUsuario()); %>
+                        <%= u.getNickname()%> :  <%= pregunta.getTextoPregunta()%>
+                        <hr>
+                    <% if(pregunta.getRespuestaRealizada() == 0){
+                    %><input type="text" name="respuesta" value="">
+                    <% } else { %> <%= pregunta.getTextoRespuesta() %> <% } %>
+                    </td>
+                    <input type="hidden" name="id" value="<%=pregunta.getIdPregunta()%>"/>
+                    <input type="hidden" name="accion" value="responder"/>
+                    <td align="center">
+                        <% if(pregunta.getRespuestaRealizada() == 0){
+                    %><input type="submit" value="Responder"/></td>
+                    <% } %>
+                    <td align="center"><a href="PreguntaServlet?accion=borrar&id=<%= pregunta.getIdPregunta()%>">Borrar</a> </td>
+                </form>
+                </tr>
+                <%
+                            }
+                        }
+                }%>
+            </table>
         </div>
                 <!-- END One prodcut -->
 
@@ -293,4 +255,3 @@
         
     </body>
 </html>
-
